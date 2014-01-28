@@ -20,34 +20,36 @@
 
 #include "led_strip.h"
 
-#define STRIP_LENGTH		(72)
+
+#define STRIP_LENGTH		(72) 		// pixels
+#define SPI_DEVICE			"/dev/spidev0.0"
 
 int main()
 {
-	bitmap mBitmap(STRIP_LENGTH, 1);	// One dimension led_strip
-	led_strip mLedStrip("/dev/spidev0.0", mBitmap.width * mBitmap.height);	// Led Strip initialized on spi.0
+	bitmap mBitmap(STRIP_LENGTH, 1);	// one dimension led_strip
+	led_strip mLedStrip(SPI_DEVICE, mBitmap.width * mBitmap.height);	// LED Strip initialized on spi.0
 
-	mBitmap.fill(ColorRed);
-	mLedStrip.paint(&mBitmap, true);
-	sleep(1);
-	
-	mBitmap.fill(ColorGreen);
-	mLedStrip.paint(&mBitmap, true);
-	sleep(1);
-	
-	mBitmap.fill(ColorBlue);
-	mLedStrip.paint(&mBitmap, true);
-	sleep(1);
-	
-	mBitmap.fill(ColorWhite);
+	mBitmap.fill(ColorRed);				// full red color	
 	mLedStrip.paint(&mBitmap, true);
 	sleep(1);
 
-	hsv_color color;
-	color.S = 255;
-	color.V = 255;
+	mBitmap.fill(ColorGreen);			// full green color
+	mLedStrip.paint(&mBitmap, true);
+	sleep(1);
+
+	mBitmap.fill(ColorBlue);			// full blue color
+	mLedStrip.paint(&mBitmap, true);
+	sleep(1);
+
+	mBitmap.fill(ColorWhite);			// full white color
+	mLedStrip.paint(&mBitmap, true);
+	sleep(1);
+
+	hsv_color color;					// HSV pixel
+	color.S = 255;						// maximum saturation
+	color.V = 255;						// maximum value
 	for(int i = 0; i < STRIP_LENGTH; i++)
-	{
+	{									// rainbow colors
 		color.H = i * 360 / STRIP_LENGTH;
 		mBitmap.set_hsv_pixel(i, 0, color);
 	}
